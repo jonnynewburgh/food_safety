@@ -3,6 +3,9 @@ library(readxl)
 library(ggplot2)
 library(ggmap)
 library(openintro)
+library(zipcode)
+library(sf)
+library(mapview)
 library(Hmisc)
 
 #read file
@@ -47,6 +50,9 @@ df_descriptives <- df_2 %>%
             poultry = sum(as.numeric(poultry))) %>%
   as_tibble
 
+
+# plot descriptives -------------------------------------------------------
+
 #initialize plotting tibble -- removing missing data from product variable
 df_plot <- df_2 %>% filter(!is.na(products))
 
@@ -59,11 +65,13 @@ pie <- ggplot(data = df_plot, aes(x = factor(1), fill = factor(products))) + geo
 pie + coord_polar("y", start = 0)
 
 
+# map meat, poultry, and egg establishments -------------------------------
+
 #usa map
 world <- map_data("world") 
 usa <- world %>% filter(region == "USA",
-              between(lat, 25, 50),
-              between(long, -150, 60))
+                        between(lat, 25, 50),
+                        between(long, -150, 60))
 
 states <- map_data("state")
 states$region <-  state2abbr(capitalize(states$region)) 
@@ -110,4 +118,22 @@ usa_base +
   geom_polygon(color = "black", fill = NA) +
   theme_bw() +
   ditch_the_axes
+
+# place establishments on map ---------------------------------------------
+
+#load zipcodes
+data("zipcode")
+zipcode <- zipcode %>%
+  as_tibble %>% select(zip, latitude, longitude)
+
+#format
+address_map <- merge(df_2, zipcode, all.x = T)
+address_map <- subset(address_map, !is.na(latitude) & !is.na(products))
+
+#map locations
+locations_df <- st_as_sf(address_map, coords = c("longitude", "latitude"), crs = 4326)
+mapview(locations_df, zcol = "products", burst = TRUE, 
+        color = c("black", "purple", "darkred", "forestgreen", "cornflowerblue", "yellow"),
+        legend = T)
+
 
