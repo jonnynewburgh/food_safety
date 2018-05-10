@@ -1,0 +1,82 @@
+#load packages
+library(rvest)
+library(magrittr)
+
+#pull data off archived FDA website
+recalls2014_1 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm")
+tbls <- html_nodes(recalls2014, "table")
+page1 <- recalls2014_1 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page1 <- data.frame(page1)
+recalls2014_2 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=2")
+page2 <- recalls2014_2 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page2 <- data.frame(page2)
+recalls2014_3 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=3")
+page3 <- recalls2014_3 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page3 <- data.frame(page3)
+recalls2014_4 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=4")
+page4 <- recalls2014_4 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page4 <- data.frame(page4)
+recalls2014_5 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=5")
+page5 <- recalls2014_5 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page5 <- data.frame(page5)
+recalls2014_6 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=6")
+page6 <- recalls2014_6 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page6 <- data.frame(page6)
+recalls2014_7 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=7")
+page7 <- recalls2014_7 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page7 <- data.frame(page7)
+recalls2014_8 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=8")
+page8 <- recalls2014_8 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page8 <- data.frame(page8)
+recalls2014_9 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=9")
+page9 <- recalls2014_9 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page9 <- data.frame(page9)
+recalls2014_10 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=10")
+page10 <- recalls2014_10 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page10 <- data.frame(page10)
+recalls2014_11 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=11")
+page11 <- recalls2014_11 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page11 <- data.frame(page11)
+recalls2014_12 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=12")
+page12 <- recalls2014_12 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page12 <- data.frame(page12)
+recalls2014_13 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=13")
+page13 <- recalls2014_13 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page13 <- data.frame(page13)
+recalls2014_14 <- read_html("http://wayback.archive-it.org/7993/20170110235159/http://www.fda.gov/Safety/Recalls/ArchiveRecalls/2014/default.htm?Page=14")
+page14 <- recalls2014_14 %>%
+  html_nodes("table") %>%
+  html_table(fill = TRUE)  
+page14 <- data.frame(page14)
+
+#bind 14 data.frames into 1
+recalls14 <- rbind(page1, page2, page3, page4, page5, page6, page7, page8, page9, page10, page11, page12, page13, page14)
+
+#write file
+write.csv(recalls14, "fda_recalls_2014.csv")
